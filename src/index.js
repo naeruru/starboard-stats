@@ -16,44 +16,32 @@ try {
   }
 
 // import databases
-const { Rooms, Devices, DeviceTypes, Usage } = require('./database/sequelize')
+const { Posts, Users, Channels, sequelize } = require('./database/sequelize')
+global.sequelizeInstance = sequelize
+global.Posts = Posts
+global.Users = Users
+global.Channels = Channels
 
 // import controllers
-// const roomsController = require('./controllers/roomsController')
-// const roomController = require('./controllers/roomController')
-// const deviceController = require('./controllers/deviceController')
-// const devicesController = require('./controllers/devicesController')
-// const usageController = require('./controllers/usageController')
-// const weatherController = require('./controllers/weatherController')
+const channelsController = require('./controllers/channelsController')
+const usersController = require('./controllers/usersController')
+const statsController = require('./controllers/statsController')
 
 // set parent route
 router.get('/', function (req, res) {
   res.json({'message': 'Ping Successful'})
 })
 
-// // rooms routes
-// router.get('/rooms', roomsController.getRooms)
+// channels routes
+router.get('/channels', channelsController.getChannels)
 
-// // room routes
-// router.get('/room/:id', roomController.getRoom)
+// users routes
+router.get('/users', usersController.getUsers)
+router.get('/users/:id', usersController.getUser)
 
-// // device routes
-// router.get('/device/:id', deviceController.getDevice)
-// router.get('/device/toggle/:id', deviceController.toggleDevice)
-
-// // devices routes
-// router.get('/devices', devicesController.getDevices)
-// router.get('/devices/status', devicesController.getDeviceStatuses)
-
-// // usage routes
-// router.post('/usage/add', usageController.addUsage)
-// router.get('/usage', usageController.getUsageData)
-// router.delete('/usage/delete', usageController.deleteUsage)
-
-// // weather routes
-// router.get('/weather', weatherController.getWeather)
-// router.get('/temperature', weatherController.getInsideTemp)
-// router.get('/temperature/:temp', weatherController.setInsideTemp)
+// stats routes
+router.get('/stats/channels/top', statsController.getTopChannels)
+router.get('/stats/users/top', statsController.getTopUsers)
 
 
 // set base url extension

@@ -41,9 +41,4 @@ sequelize.sync({ alter: true }).then(() => {
   console.log('Failed to connect to the database.')
 })
 
-global.sequelizeInstance = sequelize
-global.Posts = Posts
-global.Users = Users
-global.Channels = Channels
-
 module.exports = { Posts, Users, Channels, sequelize }
