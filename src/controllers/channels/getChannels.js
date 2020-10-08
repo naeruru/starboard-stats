@@ -1,5 +1,8 @@
-module.exports = async function (req, res) {
-    const channels = await Channels.findAll()
+const { checkJWT } = require('../../helpers/checkAuth')
 
-    res.status(200).json(channels)
+module.exports = async function (req, res) {
+    checkJWT(req, res, async () => {
+        const channels = await Channels.findAll()
+        res.status(200).json(channels)
+    })
 }
