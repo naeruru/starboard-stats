@@ -1,4 +1,4 @@
-const { sequelize } = require('../../database/sequelize')
+const { sequelize, Posts } = require('../../database/sequelize')
 const { checkJWT } = require('../../helpers/checkAuth')
 
 module.exports = async function (req, res) {
@@ -6,9 +6,14 @@ module.exports = async function (req, res) {
     checkJWT(req, res, async () => {
         const count = await Posts.count()
 
+        const reactions = await Posts.sum('reactions')
+
         const channels = await Posts.findAll({
             group: ["channelId"],
-            attributes: [[sequelize.fn("COUNT", "channelId"), "count"]],
+            attributes: [
+                [sequelize.fn("COUNT", "channelId"), "count"],
+                [sequelize.fn('sum', sequelize.col('reactions')), 'reactions']
+            ],
             order: [[sequelize.literal("count"), "DESC"]],
             include: {
                 model: Channels,
@@ -16,6 +21,6 @@ module.exports = async function (req, res) {
             }
         })
 
-        res.status(200).json({ count: count, data: channels })
+        res.status(200).json({ count: count, reactions: reactions, channels: channels })
     })
 }

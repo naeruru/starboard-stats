@@ -9,18 +9,35 @@ module.exports = async function (req, res) {
             where: {
                 id: id
             },
-            include: {
-                model: Posts,
-                attributes: ["id", "msgContent", "msgAttachment", "date"],
-                where: {
-                    deleted: false
-                },
-                include: {
-                    model: Channels,
-                    as: "channel"
+            attributes: [
+                'id',
+                'name'
+            ],
+            order: [
+                [Posts, 'date', 'desc']
+            ],
+            include: [
+                {
+                    model: Posts,
+                    attributes: [
+                        'id',
+                        'msgContent',
+                        'msgAttachment',
+                        'date',
+                        'reactions'
+                    ],
+                    where: {
+                        deleted: false
+                    },
+                    include: {
+                        model: Channels,
+                        as: 'channel'
+                    }
                 }
-            }
+            ]
         })
+
+        // const reaction_total = await Posts.sum('reactions', { where: { userId: user.id } })
 
         res.status(200).json(user)
     })

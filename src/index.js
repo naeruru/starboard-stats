@@ -65,7 +65,6 @@ global.Channels = Channels
 const authController = require('./controllers/authController')
 const channelsController = require('./controllers/channelsController')
 const usersController = require('./controllers/usersController')
-const statsController = require('./controllers/statsController')
 
 // set parent route
 router.get('/', function (req, res) {
@@ -77,14 +76,12 @@ router.post('/auth/authorize', authController.authorize)
 
 // channels routes
 router.get('/channels', channelsController.getChannels)
+router.get('/channels/top', channelsController.getTop)
 
 // users routes
 router.get('/users', usersController.getUsers)
+router.get('/users/top', usersController.getTop)
 router.get('/users/:id', usersController.getUser)
-
-// stats routes
-router.get('/stats/channels/top', statsController.getTopChannels)
-router.get('/stats/users/top', statsController.getTopUsers)
 
 
 // set base url extension
