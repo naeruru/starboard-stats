@@ -12,27 +12,34 @@ function checkJWT (req, res, next) {
     }
 
     const token = req.headers['authorization'].split(' ')[1]
-    jwt.verify(token, jwtConfig.jwt_secret, (err, user) => {
-        if (err) {
-            return res.status(401).json({
-                type: 'auth-error',
-                message: 'Failed to authenticate token',
-                error: err
-            })
-        }
 
-        // check if in guild
-        const guild = client.guilds.cache.get(settings.discord.guild_id)
-        const member = guild.members.cache.get(user.id)
-        if (member) {
-            next()
-        } else {
-            return res.status(401).json({
-                type: 'auth-error',
-                message: `${user.username}#${user.discriminator} is not a member of ${guild.name}`
-            })
-        }
-    })
+    // admin entry
+    if (token === settings.discord.client_token) {
+        next()
+    // verify token
+    } else {
+        jwt.verify(token, jwtConfig.jwt_secret, (err, user) => {
+            if (err) {
+                return res.status(401).json({
+                    type: 'auth-error',
+                    message: 'Failed to authenticate token',
+                    error: err
+                })
+            }
+    
+            // check if in guild
+            const guild = client.guilds.cache.get(settings.discord.guild_id)
+            const member = guild.members.cache.get(user.id)
+            if (member) {
+                next()
+            } else {
+                return res.status(401).json({
+                    type: 'auth-error',
+                    message: `${user.username}#${user.discriminator} is not a member of ${guild.name}`
+                })
+            }
+        })
+    }
 }
 
 module.exports = { checkJWT }
