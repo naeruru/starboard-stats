@@ -1,7 +1,7 @@
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
-const settings = require('../../config/config.json')
-const jwtSettings = require('../../config/jwt')
+const settings = require('../../../config/config.json')
+const jwtSettings = require('../../../config/jwt')
 
 module.exports = async function (req, res) {
     

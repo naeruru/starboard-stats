@@ -7,7 +7,7 @@ const PostsModel = require('./models/posts')
 // sql config info
 let sqlconfig
 try {
-  sqlconfig = require('../config/config.json').sql
+  sqlconfig = require('../../config/config.json').sql
 } catch (e) {
   console.log(`ERROR: A sql entry in config.json needs to be created in the configs folder.\nFollow the format of config.json.example.`)
 }

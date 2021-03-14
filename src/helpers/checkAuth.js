@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
-const settings = require('../config/config.json')
-const jwtConfig = require('../config/jwt')
+const settings = require('../../config/config.json')
+const jwtConfig = require('../../config/jwt')
 
 function checkJWT (req, res, next) {
     // no token is present in headers

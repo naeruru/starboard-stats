@@ -23,25 +23,59 @@ function login () {
   }
 }
 
-function setup() {
+async function setup() {
   // check config file
   try {
-      settings = require('./config/config.json')
+      settings = require('../config/config.json')
     } catch (e) {
       console.log(`a config.json file has not been generated. ${e.stack}`)
       process.exit()
   }
   // check jwt file
   try {
-    const jwtConfig = require('./config/jwt.js')
+    require('../config/jwt.js')
   } catch (e) {
     console.log('jwt.js does not exist. Generating one...')
     const { jwtConfig } = require('./helpers/generateConfig')
-    jwtConfig()
+    await jwtConfig()
   }
   // log into discord
   if (settings.discord)
     login()
+
+
+  // import databases
+  const { Posts, Users, Channels, sequelize } = require('./database/sequelize')
+  global.sequelizeInstance = sequelize
+  global.Posts = Posts
+  global.Users = Users
+  global.Channels = Channels
+
+  // import controllers
+  const authController = require('./controllers/authController')
+  const channelsController = require('./controllers/channelsController')
+  const usersController = require('./controllers/usersController')
+
+  // set parent route
+  router.get('/', function (req, res) {
+    res.json({'message': `Running ${settings.name} v${pjson.version}`})
+  })
+
+  // auth routes
+  router.post('/auth/authorize', authController.authorize)
+
+  // channels routes
+  router.get('/channels', channelsController.getChannels)
+  router.get('/channels/top', channelsController.getTop)
+
+  // users routes
+  router.get('/users', usersController.getUsers)
+  router.get('/users/top', usersController.getTop)
+  router.get('/users/:id', usersController.getUser)
+
+
+  // set base url extension
+  app.use('/', router)
 
   // initialize api
   app.listen(PORT, function () {
@@ -53,39 +87,6 @@ client.on('ready', () => {
   console.log(`Logged into Discord as ${client.user.username}!`)
 })
 
-
-// import databases
-const { Posts, Users, Channels, sequelize } = require('./database/sequelize')
-global.sequelizeInstance = sequelize
-global.Posts = Posts
-global.Users = Users
-global.Channels = Channels
-
-// import controllers
-const authController = require('./controllers/authController')
-const channelsController = require('./controllers/channelsController')
-const usersController = require('./controllers/usersController')
-
-// set parent route
-router.get('/', function (req, res) {
-  res.json({'message': `Running ${settings.name} v${pjson.version}`})
-})
-
-// auth routes
-router.post('/auth/authorize', authController.authorize)
-
-// channels routes
-router.get('/channels', channelsController.getChannels)
-router.get('/channels/top', channelsController.getTop)
-
-// users routes
-router.get('/users', usersController.getUsers)
-router.get('/users/top', usersController.getTop)
-router.get('/users/:id', usersController.getUser)
-
-
-// set base url extension
-app.use('/', router)
 
 // init setup
 setup()
