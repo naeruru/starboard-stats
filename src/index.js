@@ -67,6 +67,7 @@ async function setup() {
   // channels routes
   router.get('/channels', channelsController.getChannels)
   router.get('/channels/top', channelsController.getTop)
+  router.get('/channels/timeline', channelsController.getTimeline)
 
   // users routes
   router.get('/users', usersController.getUsers)
