@@ -1,0 +1,22 @@
+module.exports = {
+    
+    "name": "SmugPi", // the name you want for this app
+    "port": 3001, // the port you want this app to run on
+
+    "discord": { /* OPTIONAL */
+        "client_id": "", // your bot's client id
+        "client_secret": "", // your bot's client secret
+        "client_token": "", // your bot's token
+        "guild_id": "" // the guild id you want this to authenticate with
+    },
+
+    "sql": { /* REQUIRED */
+        "dialect": "mariadb", // database dialect
+        "db": "", // database name
+        "hostname": "127.0.0.1", // hostname
+        "port": "3306", // port
+        "username": "db_user", // database user
+        "password": "db_password" // database password
+    }
+
+}

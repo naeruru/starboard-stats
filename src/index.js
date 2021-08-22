@@ -26,9 +26,9 @@ function login () {
 async function setup() {
   // check config file
   try {
-      settings = require('../config/config.json')
+      settings = require('../config/config.js')
     } catch (e) {
-      console.log(`a config.json file has not been generated. ${e.stack}`)
+      console.log(`a config.js file has not been created. ${e.stack}`)
       process.exit()
   }
   // check jwt file

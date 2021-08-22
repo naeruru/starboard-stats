@@ -1,16 +1,22 @@
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
-const settings = require('../../../config/config.json')
-const jwtSettings = require('../../../config/jwt')
+const settings = require('../../../config/config.js')
+const jwtSettings = require('../../../config/jwt.js')
 
 module.exports = async function (req, res) {
     
     const code = req.body.code
     const uri = req.body.uri // https://localhost.website
 
+    if (!settings.discord) {
+        return res.status(500).send({
+            message: 'Discord authentication is disabled.',
+          })
+    }
+
     if (!code || !uri) {
         return res.status(500).send({
-            message: 'a code and uri must be specified in the body.',
+            message: 'A code and uri must be specified in the body.',
           })
     }
 
@@ -61,7 +67,7 @@ module.exports = async function (req, res) {
 
     // check if in guild
     const guild = client.guilds.cache.get(settings.discord.guild_id)
-    const member = await guild.members.cache.get(user.id)
+    const member = guild.members.cache.get(user.id)
     if (member) {
 
         // create jwt
