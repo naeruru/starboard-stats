@@ -5,7 +5,7 @@ This repository is a work-in-progress and will often have application-breaking c
 
 ## Getting Started
 ### Requirements
-NodeJS 12+
+NodeJS 16.6.0+
 
 ### Setup
 Todo

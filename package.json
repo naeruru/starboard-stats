@@ -10,12 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "cors": "^2.8.5",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.1.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mariadb": "^2.4.2",
-    "sequelize": "^6.3.5"
+    "mariadb": "^2.5.4",
+    "sequelize": "^6.6.5"
   }
 }

@@ -9,7 +9,7 @@ function checkJWT (req, res, next) {
         return next()
 
     // no token is present in headers
-    if (!req.hasOwnProperty('headers') || !req.headers.hasOwnProperty('authorization')) {
+    if (!req.headers?.authorization) {
         return res.status(401).json({
             type: 'auth-error',
             message: 'No token was supplied'
