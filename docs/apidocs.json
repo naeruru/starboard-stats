@@ -1,0 +1,496 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "name": "Starboard Stats",
+        "description": "Stats API for fetching various starboard data."
+    },
+    "servers": [
+        {
+            "url": "https://smugpi.rushnett.com"
+        },
+        {
+            "url": "http://localhost:3001"
+        }
+    ],
+    "tags": [
+        {
+            "name": "auth",
+            "description": "Authorization routes"
+        },
+        {
+            "name": "channels",
+            "description": "Discord channel routes"
+        },
+        {
+            "name": "users",
+            "description": "Discord user routes"
+        }
+    ],
+    "paths": {
+        "/auth/authorize": {
+            "post": {
+                "tags": [ "auth" ],
+                "summary": "authorizes a user and generates their login token",
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Auth object for confirming user",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#components/schemas/Auth"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "500": {
+                        "description": "operation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "/channels": {
+            "get": {
+                "tags": [ "channels" ],
+                "summary": "get a list of channels with saved data",
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "filter",
+                        "description": "Filter channel list with search term"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#components/schemas/Skim"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "operation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/channels/top": {
+            "get": {
+                "tags": [ "channels" ],
+                "summary": "get list of top channels by post and reaction count",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/TopChannels"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "operation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/channels/timeline": {
+            "get": {
+                "tags": [ "channels" ],
+                "summary": "get list of top channels by post and reaction count",
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "channel",
+                        "description": "filter channel timeline data by channel ID"
+                    },
+                    {
+                        "in": "query",
+                        "name": "interval",
+                        "description": "get timeline data by month instead of day",
+                        "schema": {
+                            "type": "string",
+                            "enum": ["monthly"]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#components/schemas/Timeline"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "operation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+
+        "/users": {
+            "get": {
+                "tags": [ "users" ],
+                "summary": "get a list of users with saved data",
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "filter",
+                        "description": "Filter user list with search term"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#components/schemas/Skim"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "operation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/top": {
+            "get": {
+                "tags": [ "users" ],
+                "summary": "get list of top users by post and reaction count",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/TopUsers"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "operation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{userId}": {
+            "get": {
+                "tags": [ "users" ],
+                "summary": "get specific user by ID",
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "description": "Discord ID of a User"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "operation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "Auth": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "Access code (fragment identifier) supplied by Discord OAuth2",
+                        "type": "string"
+                    },
+                    "uri": {
+                        "description": "OAuth2 Redirect URL",
+                        "type": "string"
+                    }
+                }
+            },
+            "Skim": {
+                "type": "object",
+                "description": "Skimmed data of a channel or user",
+                "properties": {
+                    "id": {
+                        "description": "Discord ID",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Discord name",
+                        "type": "string"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Discord user ID",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Discord user name",
+                        "type": "string"
+                    },
+                    "posts": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#components/schemas/Post"
+                        }
+                    }
+                }
+            },
+            "Post": {
+                "type": "object",
+                "description": "Posted message content",
+                "properties": {
+                    "id": {
+                        "description": "message ID",
+                        "type": "string"
+                    },
+                    "msgContent": {
+                        "description": "message content",
+                        "type": "string"
+                    },
+                    "msgAttachment": {
+                        "description": "attachment url",
+                        "type": "string"
+                    },
+                    "date": {
+                        "description": "date content was saved",
+                        "type": "string"
+                    },
+                    "reactions": {
+                        "description": "reaction count",
+                        "type": "integer"
+                    },
+                    "channel": {
+                        "$ref": "#components/schemas/Skim"
+                    }
+                }
+            },
+            "TopChannels": {
+                "type": "object",
+                "properties": {
+                    "posts": {
+                        "description": "total post count",
+                        "type": "integer"
+                    },
+                    "reactions": {
+                        "description": "total reaction count",
+                        "type": "integer"
+                    },
+                    "channels": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "posts": {
+                                    "description": "total post count",
+                                    "type": "integer"
+                                },
+                                "reactions": {
+                                    "description": "total reaction count",
+                                    "type": "integer"
+                                },
+                                "channel": {
+                                    "$ref": "#components/schemas/Skim"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "TopUsers": {
+                "type": "object",
+                "properties": {
+                    "posts": {
+                        "description": "total post count",
+                        "type": "integer"
+                    },
+                    "reactions": {
+                        "description": "total reaction count",
+                        "type": "integer"
+                    },
+                    "users": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "posts": {
+                                    "description": "total post count",
+                                    "type": "integer"
+                                },
+                                "reactions": {
+                                    "description": "total reaction count",
+                                    "type": "integer"
+                                },
+                                "user": {
+                                    "$ref": "#components/schemas/Skim"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Timeline": {
+                "type": "object",
+                "properties": {
+                    "time": {
+                        "description": "the datetime of this timeline data",
+                        "type": "string"
+                    },
+                    "posts": {
+                        "description": "post count",
+                        "type": "integer"
+                    },
+                    "reactions": {
+                        "description": "reaction count",
+                        "type": "integer"
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

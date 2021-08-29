@@ -7,6 +7,14 @@ let router = express.Router()
 app.use(cors())
 app.use(express.json()) // body parser
 
+// api docs
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('../docs/apidocs.json')
+const swaggerOptions = {
+  customCss: '.swagger-ui .topbar { display: none }'
+}
+
+// discord.js
 const { Client, Intents } = require('discord.js')
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] })
 global.client = client
@@ -77,6 +85,12 @@ async function setup() {
 
   // set base url extension
   app.use('/', router)
+
+  // set api docs route
+  swaggerDocument.info.title = settings.name
+  swaggerDocument.info.version = pjson.version
+  router.use('/api-docs', swaggerUi.serve)
+  router.get('/api-docs', swaggerUi.setup(swaggerDocument, swaggerOptions))
 
   // initialize api
   app.listen(PORT, function () {
