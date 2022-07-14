@@ -62,6 +62,7 @@ async function setup() {
   // import controllers
   const authController = require('./controllers/authController')
   const channelsController = require('./controllers/channelsController')
+  const postsController = require('./controllers/postsController')
   const usersController = require('./controllers/usersController')
 
   // set parent route
@@ -76,6 +77,10 @@ async function setup() {
   router.get('/channels', channelsController.getChannels)
   router.get('/channels/top', channelsController.getTop)
   router.get('/channels/timeline', channelsController.getTimeline)
+
+  // posts routes
+  router.get('/posts/random', postsController.getRandom)
+  router.get('/posts/:id', postsController.getPost)
 
   // users routes
   router.get('/users', usersController.getUsers)

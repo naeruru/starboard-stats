@@ -1,4 +1,4 @@
-const { sequelize, Channels } = require('../../database/sequelize')
+const { sequelize } = require('../../database/sequelize')
 const { checkJWT } = require('../../helpers/checkAuth')
 
 module.exports = async function (req, res) {
