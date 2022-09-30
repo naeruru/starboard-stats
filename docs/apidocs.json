@@ -22,6 +22,10 @@
             "description": "Discord channel routes"
         },
         {
+            "name": "posts",
+            "description": "Discord post routes"
+        },
+        {
             "name": "users",
             "description": "Discord user routes"
         }
@@ -169,6 +173,99 @@
                                     "type": "array",
                                     "items": {
                                         "$ref": "#components/schemas/Timeline"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "operation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+
+        "/posts/{postId}": {
+            "get": {
+                "tags": [ "posts" ],
+                "summary": "get specific post by ID",
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "postId",
+                        "required": true,
+                        "description": "Discord ID of a post"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "operation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        
+        "/posts/random": {
+            "get": {
+                "tags": [ "posts" ],
+                "summary": "get a list random posts",
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Amount of posts to return. Allowed range is 1-5. Default is 1."
+                    },
+                    {
+                        "in": "query",
+                        "name": "channel",
+                        "description": "Specify a channel ID to query for"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#components/schemas/Post"
                                     }
                                 }
                             }
@@ -393,6 +490,9 @@
                     "reactions": {
                         "description": "reaction count",
                         "type": "integer"
+                    },
+                    "user": {
+                        "$ref": "#components/schemas/Skim"
                     },
                     "channel": {
                         "$ref": "#components/schemas/Skim"
