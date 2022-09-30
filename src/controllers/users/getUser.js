@@ -37,7 +37,10 @@ module.exports = async function (req, res) {
             ]
         })
 
-        // const reaction_total = await Posts.sum('reactions', { where: { userId: user.id } })
+        const reactions = await Posts.sum('reactions', { where: { userId: user.id } })
+        const deleted = await Posts.count({ where: { userId: user.id, deleted: true } })
+        user.setDataValue('reactions', reactions)
+        user.setDataValue('deleted', deleted)
 
         res.status(200).json(user)
     })

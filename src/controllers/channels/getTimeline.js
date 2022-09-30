@@ -1,4 +1,4 @@
-const { sequelize, Channels } = require('../../database/sequelize')
+const { sequelize } = require('../../database/sequelize')
 const { checkJWT } = require('../../helpers/checkAuth')
 
 module.exports = async function (req, res) {
@@ -10,6 +10,7 @@ module.exports = async function (req, res) {
             whereClause.channelId = req.query.channel
 
         let dateInterval
+        // monthly or daily (default)
         if (req.query.interval === 'monthly')
             dateInterval = '%Y-%m-01 00:00:00'
         else

@@ -67,7 +67,8 @@ module.exports = async function (req, res) {
 
     // check if in guild
     const guild = client.guilds.cache.get(settings.discord.guild_id)
-    const member = guild.members.cache.get(user.id)
+    const member = guild.members.fetch(user.id)
+
     if (member) {
 
         // create jwt
