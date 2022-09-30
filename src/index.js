@@ -27,8 +27,11 @@ const swaggerOptions = {
 }
 
 // discord.js
-const { Client, GatewayIntentBits } = require('discord.js')
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.MessageContent] })
+const { Client, GatewayIntentBits, Partials } = require('discord.js')
+const client = new Client({
+  partials: [Partials.GuildMember],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers]
+})
 global.client = client
 
 let settings
