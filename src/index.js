@@ -7,6 +7,18 @@ let router = express.Router()
 app.use(cors())
 app.use(express.json()) // body parser
 
+const rateLimit = require('express-rate-limit') // rate limiter
+const limiterWindowMs = 1
+const limiterMax = 20
+const limiter = rateLimit({
+	windowMs: limiterWindowMs * 60 * 1000, // refresh time (ms)
+	max: limiterMax, // Limit each IP to n requests
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: `Too many requests. Max allowed is ${limiterMax} per ${limiterWindowMs} minute(s). meow`
+})
+app.use(limiter)
+
 // api docs
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('../docs/apidocs.json')
