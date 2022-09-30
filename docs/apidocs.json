@@ -35,7 +35,7 @@
             "post": {
                 "tags": [ "auth" ],
                 "summary": "authorizes a user and generates their login token",
-                "description": "",
+                "description": "When discord authorization is turned on, this route is used to verify if a user is in the Discord server where this data belongs. Supplying the auth token will unlock more api data. To minimize the sensitive data required to verify this info, it uses the bot to check the Discord server for a user's presence. That way, the auth code required for this route will only request your username, avatar, and banner.",
                 "parameters": [
                     {
                         "in": "body",
@@ -74,7 +74,7 @@
                     {
                         "in": "query",
                         "name": "filter",
-                        "description": "Filter channel list with search term"
+                        "description": "Filter channel list with search term."
                     }
                 ],
                 "responses": {
@@ -458,6 +458,14 @@
                     "name": {
                         "description": "Discord user name",
                         "type": "string"
+                    },
+                    "reactions": {
+                        "description": "Reaction count",
+                        "type": "integer"
+                    },
+                    "deleted": {
+                        "description": "Deleted post count",
+                        "type": "integer"
                     },
                     "posts": {
                         "type": "array",
