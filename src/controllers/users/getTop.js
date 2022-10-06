@@ -5,10 +5,15 @@ module.exports = async function (req, res) {
 
     checkJWT(req, res, async () => {
         const posts = await Posts.count()
-
+        const usercount = await Users.count()
         const reactions = await Posts.sum('reactions')
 
+        const limit = Math.min(parseInt(req.query.limit ?? 10), 30)
+        const page = Math.max(parseInt(req.query.page ?? 1), 1)
+
         const users = await Posts.findAll({
+            offset: (page - 1) * limit,
+            limit: limit,
             group: ["userId"],
             attributes: [
                 [sequelize.fn("COUNT", "userId"), "posts"],
@@ -21,6 +26,6 @@ module.exports = async function (req, res) {
             },
         })
 
-        res.status(200).json({ posts: posts, reactions: reactions, users: users })
+        res.status(200).json({ posts: posts, reactions: reactions, count: usercount, users: users })
     })
 }

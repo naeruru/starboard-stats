@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "https://smugpi.rushnett.com"
+            "url": "https://smugpi.risu.dev"
         },
         {
             "url": "http://localhost:3001"
@@ -146,7 +146,7 @@
         "/channels/timeline": {
             "get": {
                 "tags": [ "channels" ],
-                "summary": "get list of top channels by post and reaction count",
+                "summary": "get a timeline of post and reaction count",
                 "description": "",
                 "parameters": [
                     {
@@ -197,53 +197,10 @@
             }
         },
 
-        "/posts/{postId}": {
+        "/posts": {
             "get": {
                 "tags": [ "posts" ],
-                "summary": "get specific post by ID",
-                "description": "",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "postId",
-                        "required": true,
-                        "description": "Discord ID of a post"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#components/schemas/Post"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "operation failed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        
-        "/posts/random": {
-            "get": {
-                "tags": [ "posts" ],
-                "summary": "get a list random posts",
+                "summary": "get specified posts",
                 "description": "",
                 "parameters": [
                     {
@@ -253,8 +210,38 @@
                     },
                     {
                         "in": "query",
+                        "name": "page",
+                        "description": "Specify the pagination number for the query. Default is 1."
+                    },
+                    {
+                        "in": "query",
+                        "name": "before",
+                        "description": "Retrieve any posts before specific date. ISO format preferred."
+                    },
+                    {
+                        "in": "query",
+                        "name": "after",
+                        "description": "Retrieve any posts after specific date. ISO format preferred."
+                    },
+                    {
+                        "in": "query",
+                        "name": "filter",
+                        "description": "Filter message content by string."
+                    },
+                    {
+                        "in": "query",
+                        "name": "sort",
+                        "description": "Specify a sort method. Options: date, msgContent, reactions, random. Default is date."
+                    },
+                    {
+                        "in": "query",
                         "name": "channel",
-                        "description": "Specify a channel ID to query for"
+                        "description": "Specify a channel ID to query for."
+                    },
+                    {
+                        "in": "query",
+                        "name": "user",
+                        "description": "Specify a user ID to query for."
                     }
                 ],
                 "responses": {
@@ -290,6 +277,49 @@
             }
         },
 
+        "/posts/{id}": {
+            "get": {
+                "tags": [ "posts" ],
+                "summary": "get specific post by ID",
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Discord ID of a post"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "operation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+
         "/users": {
             "get": {
                 "tags": [ "users" ],
@@ -300,6 +330,16 @@
                         "in": "query",
                         "name": "filter",
                         "description": "Filter user list with search term"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Amount of posts to return. Allowed range is 1-10. Default is 5."
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "Specify the pagination number for the query. Default is 1."
                     }
                 ],
                 "responses": {
@@ -310,7 +350,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#components/schemas/Skim"
+                                        "$ref": "#components/schemas/UserList"
                                     }
                                 }
                             }
@@ -339,6 +379,18 @@
                 "tags": [ "users" ],
                 "summary": "get list of top users by post and reaction count",
                 "description": "",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Amount of posts to return. Allowed range is 1-30. Default is 10."
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "Specify the pagination number for the query. Default is 1."
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -368,7 +420,7 @@
                 ]
             }
         },
-        "/users/{userId}": {
+        "/users/{id}": {
             "get": {
                 "tags": [ "users" ],
                 "summary": "get specific user by ID",
@@ -376,7 +428,7 @@
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "userId",
+                        "name": "id",
                         "required": true,
                         "description": "Discord ID of a User"
                     }
@@ -475,6 +527,21 @@
                     }
                 }
             },
+            "UserList": {
+                "type": "object",
+                "properties": {
+                    "count": {
+                        "description": "total post count",
+                        "type": "integer"
+                    },
+                    "users": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#components/schemas/Skim"
+                        }
+                    }
+                }
+            },
             "Post": {
                 "type": "object",
                 "description": "Posted message content",
@@ -504,6 +571,21 @@
                     },
                     "channel": {
                         "$ref": "#components/schemas/Skim"
+                    }
+                }
+            },
+            "PostList": {
+                "type": "object",
+                "properties": {
+                    "count": {
+                        "description": "total post count",
+                        "type": "integer"
+                    },
+                    "posts": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#components/schemas/Post"
+                        }
                     }
                 }
             },
@@ -548,6 +630,10 @@
                     },
                     "reactions": {
                         "description": "total reaction count",
+                        "type": "integer"
+                    },
+                    "count": {
+                        "description": "total user count",
                         "type": "integer"
                     },
                     "users": {

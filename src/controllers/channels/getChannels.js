@@ -9,7 +9,9 @@ module.exports = async function (req, res) {
         if (req.query.filter)
             where.name = { [Op.like]: `${req.query.filter }%`}
 
-        const channels = await Channels.findAll({ where: where })
+        const channels = await Channels.findAll({
+            where: where
+        })
         res.status(200).json(channels)
     })
 }

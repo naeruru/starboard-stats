@@ -4,7 +4,6 @@ const { checkJWT } = require('../../helpers/checkAuth')
 module.exports = async function (req, res) {
 
     checkJWT(req, res, async () => {
-        const id = req.params.id
         const limit = parseInt(req.query.limit ?? 1)
         const channel = req.query.channel
 

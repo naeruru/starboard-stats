@@ -27,7 +27,7 @@ const swaggerOptions = {
 }
 
 // discord.js
-const { Client, GatewayIntentBits, Partials } = require('discord.js')
+const { Client, GatewayIntentBits, Partials, CommandInteraction } = require('discord.js')
 const client = new Client({
   partials: [Partials.GuildMember],
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers]
@@ -94,7 +94,7 @@ async function setup() {
   router.get('/channels/timeline', channelsController.getTimeline)
 
   // posts routes
-  router.get('/posts/random', postsController.getRandom)
+  router.get('/posts', postsController.getPosts)
   router.get('/posts/:id', postsController.getPost)
 
   // users routes
