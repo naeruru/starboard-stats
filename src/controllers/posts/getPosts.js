@@ -1,6 +1,5 @@
 // for use in creating archives of attachments
 const Sequelize = require('sequelize')
-const posts = require('../../database/models/posts')
 const Op = Sequelize.Op
 const { sequelize } = require('../../database/sequelize')
 const { checkJWT } = require('../../helpers/checkAuth')
