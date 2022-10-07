@@ -12,7 +12,11 @@ module.exports = async function (req, res) {
 
         if (req.query.filter)
             where.name = { [Op.like]: `${req.query.filter }%`}
-
+        else
+            return res.status(400).json({
+                type: 'format-error',
+                message: 'a filter or ID must be specified'
+            })
         
 
         const users = await Users.findAndCountAll({

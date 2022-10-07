@@ -51,7 +51,7 @@
                     "200": {
                         "description": "successful operation"
                     },
-                    "500": {
+                    "400": {
                         "description": "operation failed",
                         "content": {
                             "application/json": {
@@ -91,7 +91,7 @@
                             }
                         }
                     },
-                    "500": {
+                    "400": {
                         "description": "operation failed",
                         "content": {
                             "application/json": {
@@ -125,7 +125,7 @@
                             }
                         }
                     },
-                    "500": {
+                    "400": {
                         "description": "operation failed",
                         "content": {
                             "application/json": {
@@ -178,7 +178,7 @@
                             }
                         }
                     },
-                    "500": {
+                    "400": {
                         "description": "operation failed",
                         "content": {
                             "application/json": {
@@ -258,7 +258,7 @@
                             }
                         }
                     },
-                    "500": {
+                    "400": {
                         "description": "operation failed",
                         "content": {
                             "application/json": {
@@ -301,7 +301,7 @@
                             }
                         }
                     },
-                    "500": {
+                    "400": {
                         "description": "operation failed",
                         "content": {
                             "application/json": {
@@ -328,6 +328,7 @@
                 "parameters": [
                     {
                         "in": "query",
+                        "required": true,
                         "name": "filter",
                         "description": "Filter user list with search term"
                     },
@@ -356,7 +357,7 @@
                             }
                         }
                     },
-                    "500": {
+                    "400": {
                         "description": "operation failed",
                         "content": {
                             "application/json": {
@@ -402,7 +403,7 @@
                             }
                         }
                     },
-                    "500": {
+                    "400": {
                         "description": "operation failed",
                         "content": {
                             "application/json": {
@@ -444,7 +445,7 @@
                             }
                         }
                     },
-                    "500": {
+                    "400": {
                         "description": "operation failed",
                         "content": {
                             "application/json": {

@@ -43,7 +43,7 @@ When you set up Discord authentication, the API will need a bearer token in the 
 For information on OAuth2, see the [Discord Developer portal](https://discord.com/developers/applications), select your application, and go to the OAuth2 page. The only scope needed is the `identify` scope (all this will fetch is their Discord ID and username). Otherwise, you can simply use your client token if you are using your own bot to interface the API.
 
 ## Documentation
-When the server is running, you can find documentation on the route `/api-docs` served from [apidocs.json](docs/apidocs.json). You can also check out my production server's documentation at https://smugpi.rushnett.com/api-docs/.
+When the server is running, you can find documentation on the route `/api-docs` served from [apidocs.json](docs/apidocs.json). You can also check out my production server's documentation at https://smugpi.risu.dev/api-docs/.
 
 ## Examples
 I am working on providing production ready examples that you can use with this API. The code on my current examples are, um, really bad and outdated. But images for them are below. If you want me to mention an example of yours feel free to send a pr.
